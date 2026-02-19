@@ -1,5 +1,9 @@
 clear; close all; clc;
 
+
+
+%%%%%% testing github
+
 % Input parameters
 a   = 1e-5;     % m        % Characteristic pore/channel radius
 k   = 5e-14;    % m/Pa.s   % Hydraulic permeability coefficient of the medium
@@ -24,6 +28,8 @@ Pe=(u_0*l)/D;          % Peclet number
 t_0=l/u_0; % advective timescale
 Da=t_0/tr;         %  Damköhler number
 ph=rho*g*l; % hydrostatic pressure
+
+
 
 % Domain (input or predefined)
 n   = 100;
