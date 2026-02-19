@@ -1,9 +1,5 @@
 clear; close all; clc;
 
-
-
-%%%%%% testing github
-
 % Input parameters
 a   = 1e-5;     % m        % Characteristic pore/channel radius
 k   = 5e-14;    % m/Pa.s   % Hydraulic permeability coefficient of the medium
