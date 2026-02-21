@@ -1,4 +1,4 @@
-function J = Jacobian(n,P,C,M,Da,Pe,dt)
+function J = Jacobian(n,P,C,M,Da,Pe,dt,dZ)
 
 %  parameters
 %n                            %number of nodes
@@ -25,19 +25,19 @@ J = zeros(2*n,2*n);
 
 
 %p equation terms
-J(sub2ind(size(J),2.*i-1,2.*(i-1)-1))=-1/M; % p-1 variable
-J(sub2ind(size(J),2.*i-1,2.*i-1))=2/M + 1; % p variab;e
+J(sub2ind(size(J),2.*i-1,2.*(i-1)-1))=-1/(M*dZ^2); % p-1 variable
+J(sub2ind(size(J),2.*i-1,2.*i-1))=2/(M*dZ^2) + 1; % p variab;e
 J(sub2ind(size(J),2.*i-1,2.*i))=-1; % c variable
-J(sub2ind(size(J),2.*i-1,2.*(i+1)-1))=-1/M; % p+1 variable
+J(sub2ind(size(J),2.*i-1,2.*(i+1)-1))=-1/(M*dZ^2); % p+1 variable
 
 
 % c equation terms
-J(sub2ind(size(J),2.*i,2.*(i-1)-1))= C(1:n-2); % p-1 variable
-J(sub2ind(size(J),2.*i,2.*(i-1)))= -( P(2:n-1)-P(1:n-2))-1/Pe; % c-1 variable
-J(sub2ind(size(J),2.*i,2.*i-1))=  C(2:n-1)+C(1:n-2) ; % p variable
-J(sub2ind(size(J),2.*i,2.*i))= 1/dt - (P(3:n) - P(2:n-1) )+2/Pe + Da; % c variable
-J(sub2ind(size(J),2.*i,2.*(i+1)-1))= -C(2:n-1); % p+1 variable
-J(sub2ind(size(J),2.*i,2.*(i+1)))=-1/Pe; % c+1 variable
+J(sub2ind(size(J),2.*i,2.*(i-1)-1))=(1/dZ^2).* C(1:n-2); % p-1 variable
+J(sub2ind(size(J),2.*i,2.*(i-1)))= 1/dZ^2.*( P(2:n-1)-P(1:n-2)) -1/(Pe*dZ^2) ; % c-1 variable
+J(sub2ind(size(J),2.*i,2.*i-1))=  (1/dZ^2).*(C(2:n-1)+C(1:n-2)) ; % p variable
+J(sub2ind(size(J),2.*i,2.*i))= 1/dt - 1/dZ^2.*(P(3:n) - P(2:n-1) )+2/(Pe*dZ^2) + Da; % c variable
+J(sub2ind(size(J),2.*i,2.*(i+1)-1))= (-1/dZ^2).*C(2:n-1); % p+1 variable
+J(sub2ind(size(J),2.*i,2.*(i+1)))=-1/(Pe*dZ^2); % c+1 variable
 
 %BC
 %at top

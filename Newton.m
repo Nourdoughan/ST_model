@@ -1,4 +1,4 @@
-function [P,C,err] =Newton(n,p_old,M,X,Pe,Da,ph,p_0,Psi,C_old_scaled,dt)
+function [P,C,err] =Newton(n,p_old,M,X,Pe,Da,ph,p_0,Psi,C_old_scaled,dt,dZ)
 %dz is the grid siz
 % a is the phloem thickness in m                          
 %k    % m/Pa.s   % Hydraulic permeability  of the membrane
@@ -29,9 +29,9 @@ while err > tol && iter < max_iter
     c_IT = C;
     p_IT = P;
 
-    F = Fvector(n,p_IT,c_IT,M,X,Pe,Da,ph,p_0,Psi,C_old_scaled,dt);
+    F = Fvector(n,p_IT,c_IT,M,X,Pe,Da,ph,p_0,Psi,C_old_scaled,dt,dZ);
 
-    J = Jacobian(n,p_IT,c_IT,M,Da,Pe,dt);
+    J = Jacobian(n,p_IT,c_IT,M,Da,Pe,dt,dZ);
 
     
    
@@ -49,7 +49,7 @@ while err > tol && iter < max_iter
     C= c_IT + dc;
 
     % Check convergence
-    err = norm(Fvector(n,p_IT,c_IT,M,X,Pe,Da,ph,p_0,Psi,C_old_scaled,dt));
+    err = norm(Fvector(n,p_IT,c_IT,M,X,Pe,Da,ph,p_0,Psi,C_old_scaled,dt,dZ));
     fprintf("Iteration %d   Error = %e\n", iter, err);
 
 end

@@ -1,4 +1,4 @@
-function F = Fvector(n,P,C,M,X,Pe,Da,ph,p_0,Psi,C_old_scaled,dt)
+function F = Fvector(n,P,C,M,X,Pe,Da,ph,p_0,Psi,C_old_scaled,dt,dZ)
 
 %  parameters
 % n is the number of nodes
@@ -22,12 +22,12 @@ F = zeros(2*n,1);
 i = 2:n-1;
 
 %  p-equation
-F(2.*i-1) = (-1/M).*( P(i+1) - 2.*P(i) + P(i-1) ) ...
+F(2.*i-1) = (-1/(M*dZ^2)).*( P(i+1) - 2.*P(i) + P(i-1) ) ...
              + P(i) - C(i) - X.*Psi(i);
 
 %  c-equation
-F(2.*i) = ( C(i) - C_old_scaled(i) )./dt - ( C(i).*(P(i+1)-P(i)) - C(i-1).*(P(i)-P(i-1)) ) ...
-             -(1/Pe).*( C(i+1) - 2.*C(i) + C(i-1) ) + Da.*C(i);
+F(2.*i) = ( C(i) - C_old_scaled(i) )./dt - 1/dZ^2*(( C(i).*(P(i+1)-P(i)) - C(i-1).*(P(i)-P(i-1))) ) ...
+             -(1/(Pe*dZ^2)).*( C(i+1) - 2.*C(i) + C(i-1) ) + Da.*C(i);
 
 
 % BC at z = 0

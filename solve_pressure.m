@@ -1,12 +1,12 @@
-function P = solve_pressure(C_old_scaled,Psi,X,n,M)
+function P = solve_pressure(C_old_scaled,Psi,X,n,M,dZ)
 
     % Build RHS b_p
     b_p = C_old_scaled + X*Psi;
 
     
    % Build tridiagonal system
-    diag_p = ones(n,1) .* (2/M + 1);   %  M is Münch number
-    diag_u = ones(n-1,1) .* (-1/M);
+    diag_p = ones(n,1) .* (2/(M*dZ^2) + 1);   %  M is Münch number
+    diag_u = ones(n-1,1) .* (-1/(M*dZ^2));
     diag_l = diag_u;
 
     % Boundary conditions
