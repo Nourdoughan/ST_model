@@ -1,4 +1,4 @@
-function J = Jacobian(n,P,C,M,Da,Pe,dt,dZ)
+function J = Jacobian(n,P,C,M,Da,Das,Pe,dt,dZ)
 
 %  parameters
 %n                            %number of nodes
@@ -46,11 +46,13 @@ J(1,1)=1;
 J(1,2)=-1;
 % c equation
 J(2,2)=1;
-
+% J(2,2)=)=1/dt - 1/dZ^2.*(P(2)-P(1)) +(1/(Pe*dZ^2)).*C(2) + Da;
 % at bottom
 % p equation
 J(2*n-1,2*n-1)=1;
 J(2*n-1,2*n)= -1;
 % c equation
-J(2*n,2*n)=1;
+% J(2*n,2*n)=1;
+J(2*n,2*n)= 1/dt + Das/dZ + (1/dZ^2)*( ( P(n)-P(n-1) ) ...
+        + (1/Pe) ) + Da;
 end

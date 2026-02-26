@@ -1,4 +1,4 @@
-clear; close all; clc;
+clear all%; close all; clc;
 
 % Input parameters
 a   = 1e-5;     % m        % Characteristic pore/channel radius
@@ -12,6 +12,7 @@ psil_s= -0.1e6;
 mu  = 1.5e-3;   % Pa.s     % Dynamic viscosity of the fluid
 D   = 4e-10;    % m^2/s    % Molecular diffusion coefficient of the species
 tr  = 1000;     % s
+trs = 1000/a;   % s/m
 g = 9.81;    % gravity
 rho = 1000;  % density of water
 
@@ -23,7 +24,8 @@ p_0 = Rg*T*c0;         % pressure scale
 u_0=(a^2*p_0)/(8*mu*l);
 Pe=(u_0*l)/D;          % Peclet number
 t_0=l/u_0;             % advective timescale
-Da=t_0/tr;             %  Damköhler number
+Da=t_0/tr;             %  Homogeneous Damköhler number
+Das = t_0/(trs*l);     %  Heterogeneous Damköhler number
 ph=rho*g*l;            % hydrostatic pressure
 
 
@@ -33,7 +35,7 @@ n   = 100;
 dz  = l / n;
 dZ=dz/l;
 duration = 100;
-dt=0.01;
+dt=0.001;
 
 % xylem water potential
 psil = (psil_L - psil_s) .* (1 - (dz/l) .* ((1:n)' - 0.5)) + psil_s; % xylem water potential
@@ -56,17 +58,19 @@ P(:,1) = P_old;
 
 for i = 2:duration
 
-    [P(:,i),C(:,i),~] = Newton(n,P(:,i-1),M,X,Pe,Da,ph,p_0,Psi,C(:,i-1),dt,dZ);
+    [P(:,i),C(:,i),~] = Newton(n,P(:,i-1),M,X,Pe,Da,Das,ph,p_0,Psi,C(:,i-1),dt,dZ);
     
 end
 
 figure
-plot(C(:,1))
+plot(C(:,1).*c0)
 hold on
-plot(C(:,end))
+plot(C(:,end).*c0)
 
 
 figure
-plot(P(:,1))
+plot(P(:,1).*p_0)
 hold on
-plot(P(:,end))
+plot(P(:,end).*p_0)
+hold on
+plot(P(:,end).*p_0 + rho*g.*(dz .* ((1:n)' - 0.5) - l) )

@@ -1,4 +1,4 @@
-function F = Fvector(n,P,C,M,X,Pe,Da,ph,p_0,Psi,C_old_scaled,dt,dZ)
+function F = Fvector(n,P,C,M,X,Pe,Da,Das,ph,p_0,Psi,C_old_scaled,dt,dZ)
 
 %  parameters
 % n is the number of nodes
@@ -31,11 +31,21 @@ F(2.*i) = ( C(i) - C_old_scaled(i) )./dt - 1/dZ^2*(( C(i).*(P(i+1)-P(i)) - C(i-1
 
 
 % BC at z = 0
-F(1) = P(1) - C(1) - X*Psi(1); % water potential equilibirum
-F(2) = C(1) - 1; % cts c at the top
+ F(1) = P(1) - C(1) - X*Psi(1); % water potential equilibirum
+ F(2) = C(1) - 1; % cts c at the top
+
+% F(2)=( C(1) - C_old_scaled(1) )./dt - 1/dZ^2*( C(1).*(P(2)-P(1))) ...
+%              -(1/(Pe*dZ^2)).*( C(2) - C(1)  ) + Da.*C(1);
+
+
+
 
 % BC at z = L
 F(2*n-1) = P(n) - C(n) - X*Psi(n); % water potential equilibirum
-F(2*n)   = C(n) - (ph/p_0 - X*Psi(n)); % p = 0 at the bottom
+% F(2*n)   = C(n) - (ph/p_0 - X*Psi(n)); % p = 0 at the bottom
+% F(2*n)=( C(n) - C_old_scaled(n) )./dt + Das*C(n)/dZ + (1/dZ^2)*( C(n-1).*( P(n)-P(n-1) ) ...
+%         +(1/Pe).*( C(n) - C(n-1) )  ) + Da.*C(n);
 
+F(2*n)=( C(n) - C_old_scaled(n) )./dt + ( C(n) + X*Psi(n) )*Das/dZ + (1/dZ^2)*( C(n-1).*( P(n)-P(n-1) ) ...
+        +(1/Pe).*( C(n) - C(n-1) )  ) + Da.*C(n);
 end
