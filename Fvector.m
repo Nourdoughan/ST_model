@@ -71,11 +71,15 @@ F(2.*i) = ( C(i) - C_old_scaled(i) )./dt ...
 % Pressure: water potential equilibrium
 F(1) = P(1) - C(1) - X*Psi(1);
 
-% Concentration: Dirichlet condition (C = 1 at inlet)
+% % Concentration: Dirichlet condition (C = 1 at inlet)
 F(2) = C(1) - 1;
 
-% 3.2 BOTTOM BOUNDARY (z = L)
+%F(2) = ( C(1) - C_old_scaled(1) )./dt + (1/dZ^2)*( ( P(1)-P(0) )... 
+       %  + (1/Pe).*( C(1) - 1 ) ) ...
+        % + Da.*C(1);
 
+
+% 3.2 BOTTOM BOUNDARY (z = L)
 
 % Pressure: water potential equilibrium
 F(2*n-1) = P(n) - C(n) - X*Psi(n);
