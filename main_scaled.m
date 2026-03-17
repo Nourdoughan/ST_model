@@ -21,6 +21,7 @@ tr  = 1000;      % [s]      Homogeneous reaction time scale
 trs = 1000/a;    % [s/m]    Surface reaction time scale
 g   = 9.81;      % [m/s^2]  Gravity
 rho = 1000;      % [kg/m^3] Density of water
+J_assim = 8.3e-7; % [mol m^-2 s^-1] sucrose assimilation flux;
 
 % 2) NON-DIMENSIONAL NUMBERS
 
@@ -81,7 +82,7 @@ for i = 2:duration
     
     % Solve nonlinear coupled system using Newton's method
     [P(:,i), C(:,i), ~] =  Newton(n, P(:,i-1), M, X, Pe, Da, Das, ...
-               ph, p_0, Psi, C(:,i-1), dt, dZ);
+               ph, p_0, Psi, C(:,i-1), dt, dZ,J_assim);
     
 end
 

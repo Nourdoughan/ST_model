@@ -1,4 +1,4 @@
-function [P,C,err] = Newton(n,p_old,M,X,Pe,Da,Das,ph,p_0,Psi,C_old_scaled,dt,dZ)
+function [P,C,err] = Newton(n,p_old,M,X,Pe,Da,Das,ph,p_0,Psi,C_old_scaled,dt,dZ,J_assim)
 
 
 % %  NEWTON SOLVER FOR COUPLED PRESSURE–CONCENTRATION SYSTEM
@@ -68,7 +68,7 @@ while err > tol && iter < max_iter
     % - Concentration residuals
     % Arranged in interleaved form [P1,C1,P2,C2,...]
     F = Fvector(n,p_IT,c_IT,M,X,Pe,Da,Das,...
-                ph,p_0,Psi,C_old_scaled,dt,dZ);
+                ph,p_0,Psi,C_old_scaled,dt,dZ,J_assim);
 
     
     % 2.2 Compute Jacobian Matrix
@@ -98,7 +98,7 @@ while err > tol && iter < max_iter
  
     % Compute residual norm to monitor convergence
     err = norm(Fvector(n,p_IT,c_IT,M,X,Pe,Da,Das,...
-                       ph,p_0,Psi,C_old_scaled,dt,dZ));
+                       ph,p_0,Psi,C_old_scaled,dt,dZ,J_assim));
 
     fprintf("Iteration %d   Error = %e\n", iter, err);
 

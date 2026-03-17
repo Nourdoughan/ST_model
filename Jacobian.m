@@ -87,9 +87,10 @@ J(1,1) = 1;
 J(1,2) = -1;
 
 % Concentration: C(1) = 1 (Dirichlet)
-J(2,2) = 1;
+%J(2,2) = 1;
 
-%J(2,2) = 1/dt -(1/Pe) + Da;
+J(2,2) =  1/dt + (1/dZ^2)*(1/Pe) - (1/dZ^2)*( P(2)-P(1) )+ Da;
+J(2,4)= - (1/dZ^2)* (1/Pe)  ;
 
 % Bottom boundary (z = L) 
 % Pressure: P(n) - C(n) - X*Psi(n) = 0

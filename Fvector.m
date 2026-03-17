@@ -1,4 +1,4 @@
-function F = Fvector(n,P,C,M,X,Pe,Da,Das,ph,p_0,Psi,C_old_scaled,dt,dZ)
+function F = Fvector(n,P,C,M,X,Pe,Da,Das,ph,p_0,Psi,C_old_scaled,dt,dZ,J_assim)
 
 
 %  RESIDUAL VECTOR FOR COUPLED PRESSURE–CONCENTRATION SYSTEM
@@ -71,12 +71,14 @@ F(2.*i) = ( C(i) - C_old_scaled(i) )./dt ...
 % Pressure: water potential equilibrium
 F(1) = P(1) - C(1) - X*Psi(1);
 
-% % Concentration: Dirichlet condition (C = 1 at inlet)
-F(2) = C(1) - 1;
+% Concentration: Dirichlet condition (C = 1 at inlet)
 
-%F(2) = ( C(1) - C_old_scaled(1) )./dt + (1/dZ^2)*( ( P(1)-P(0) )... 
-       %  + (1/Pe).*( C(1) - 1 ) ) ...
-        % + Da.*C(1);
+%F(2) = C(1) - 1;
+
+F(2) = ( C(1) - C_old_scaled(1) )./dt ...
+         - (1/dZ^2)*( C(1).*( P(2)-P(1) ) ...
+         + (1/Pe).*( C(2) - C(1) ) ) -J_assim/dZ ...
+         + Da.*C(1);
 
 
 % 3.2 BOTTOM BOUNDARY (z = L)
