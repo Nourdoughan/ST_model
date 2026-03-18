@@ -89,8 +89,10 @@ J(1,2) = -1;
 % Concentration: C(1) = 1 (Dirichlet)
 %J(2,2) = 1;
 
-J(2,2) =  1/dt + (1/dZ^2)*(1/Pe) - (1/dZ^2)*( P(2)-P(1) )+ Da;
-J(2,4)= - (1/dZ^2)* (1/Pe)  ;
+J(2,2) =  1/dt + (1/dZ^2)*(1/Pe) - (1/dZ^2)*( P(2)-P(1) )+ Da;    %c1
+J(2,4)= - (1/dZ^2)* (1/Pe)  ;                                     %c2
+J(2,1)=C(1)/dZ^2;                                                 %p1
+J(2,3)= -(C(1)/dZ^2);                                             %p2
 
 % Bottom boundary (z = L) 
 % Pressure: P(n) - C(n) - X*Psi(n) = 0
@@ -101,12 +103,12 @@ J(2*n-1,2*n)   = -1;
 % Includes time derivative, surface reaction (Das),
 % advection, diffusion, and homogeneous reaction
 
-J(2*n,2*n) = ...
-    1/dt ...
-    + Das/dZ ...
-    + (1/dZ^2)*( ( P(n)-P(n-1) ) + (1/Pe) ) ...
-    + Da;
+J(2*n,2*n) =1/dt + Das/dZ + (1/ (dZ^2*Pe) )+ Da;    % c(n)
+J(2*n,2*n-3) = (1/dZ^2).*( P(n)-P(n-1) ) - (1/Pe);  %c(n-1)
+J(2*n,2*n-1)=C(n-1)/dZ^2;                           %p(n)
+J(2*n,2*n-4)= -(C(n-1)/dZ^2);                       % p(n-1)
 
+% used this before
 % J(2,2)=)=1/dt - 1/dZ^2.*(P(2)-P(1)) +(1/(Pe*dZ^2)).*C(2) + Da;
 
 % J(2*n,2*n)=1;
