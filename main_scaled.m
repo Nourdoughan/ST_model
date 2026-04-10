@@ -17,11 +17,11 @@ psil_L = -1e6;   % [Pa]     Leaf xylem water potential
 psil_s = -0.1e6; % [Pa]     Soil xylem water potential
 mu  = 1.5e-3;    % [Pa.s]   Dynamic viscosity
 D   = 4e-10;     % [m^2/s]  Molecular diffusion coefficient
-tr  = 1000;      % [s]      Homogeneous reaction time scale
-trs = 1000/a;    % [s/m]    Surface reaction time scale
+tr  = 1000000;    % [s]      Homogeneous reaction time scale
+trs = tr/a;    % [s/m]    Surface reaction time scale
 g   = 9.81;      % [m/s^2]  Gravity
 rho = 1000;      % [kg/m^3] Density of water
-J_assim = 8.3e-7; % [mol m^-2 s^-1] sucrose assimilation flux;
+J_assim = 8.3e-7;% [mol m^-2 s^-1] sucrose assimilation flux;
 
 % 2) NON-DIMENSIONAL NUMBERS
 
@@ -33,7 +33,7 @@ Pe  = (u_0*l)/D;                    % Peclet number (advection/diffusion)
 t_0 = l/u_0;                        % Advective time scale
 Da  = t_0/tr;                       % Homogeneous Damköhler number
 Das = t_0/(trs*l);                  % Heterogeneous Damköhler number
-ph  = rho*g*l;                      % Hydrostatic pressure scale
+ph  = (rho*g*l)/p_0;                      % Hydrostatic pressure scale
 
 % 3) NUMERICAL DOMAIN & DISCRETIZATION
 

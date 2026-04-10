@@ -105,8 +105,8 @@ J(2*n-1,2*n)   = -1;
 
 J(2*n,2*n) =1/dt + Das/dZ + (1/ (dZ^2*Pe) )+ Da;    % c(n)
 J(2*n,2*n-3) = (1/dZ^2).*( P(n)-P(n-1) ) - (1/Pe);  %c(n-1)
-J(2*n,2*n-1)=C(n-1)/dZ^2;                           %p(n)
-J(2*n,2*n-4)= -(C(n-1)/dZ^2);                       % p(n-1)
+J(2*n,2*n-1)=C(n-1)/dZ^2- Das/dZ^3 ;                           %p(n)
+J(2*n,2*n-4)= -(C(n-1)/dZ^2)+Das/dZ^3;                       % p(n-1)
 
 % used this before
 % J(2,2)=)=1/dt - 1/dZ^2.*(P(2)-P(1)) +(1/(Pe*dZ^2)).*C(2) + Da;
