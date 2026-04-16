@@ -10,9 +10,9 @@ function P = solve_pressure(C_old_scaled,Psi,X,n,M,dZ)
     diag_l = diag_u;
 
     % Boundary conditions
-    diag_p(1) = 1; 
+    diag_p(1) = 1 + 1/(M*dZ^2); 
     diag_p(n) = 1;
-    diag_u(1) = 0;
+    diag_u(1) = -1/(M*dZ^2);
     diag_l(end) = 0;
 
     % Solve using Thomas

@@ -83,7 +83,7 @@ switch threshold
     case 1
         % ∂Fc/∂P(i-1)
         J(sub2ind(size(J),2.*i,2.*(i-1)-1)) = - (1/dZ^2).*C(1:n-2) ...
-            + Da/(dZ^2);
+            + Da/(M*dZ^2);
         
         % ∂Fc/∂C(i-1)
         J(sub2ind(size(J),2.*i,2.*(i-1))) = ...
@@ -92,7 +92,7 @@ switch threshold
         % ∂Fc/∂P(i)
         J(sub2ind(size(J),2.*i,2.*i-1)) = ...
             (1/dZ^2).*( C(2:n-1) + C(1:n-2) ) ...
-            - 2*Da/(dZ^2);
+            - 2*Da/(M*dZ^2);
         
         % ∂Fc/∂C(i)
         J(sub2ind(size(J),2.*i,2.*i)) = ...
@@ -103,7 +103,7 @@ switch threshold
 
         % ∂Fc/∂P(i+1)
         J(sub2ind(size(J),2.*i,2.*(i+1)-1)) = (-1/dZ^2).*C(2:n-1) ...
-            + Da/(dZ^2);
+            + Da/(M*dZ^2);
 
         % ∂Fc/∂C(i+1)
         J(sub2ind(size(J),2.*i,2.*(i+1))) = -1/(Pe*dZ^2);
@@ -124,15 +124,15 @@ J(1,3) = - 1/(dZ^2);
 switch threshold
 
     case 0
-        J(2,2) =  1/dt + (1/dZ^2)*(1/Pe) - (1/dZ^2)*( P(2)-P(1) )+ Da;    %c1
-        J(2,4)= - (1/dZ^2)* (1/Pe)  ;                                     %c2
-        J(2,1)=C(1)/dZ^2;                                                 %p1
-        J(2,3)= -(C(1)/dZ^2);                                             %p2
+        J(2,2) =  1/dt + (1/dZ^2)*(1/Pe) - (1/dZ^2)*( P(2)-P(1) )+ Da;     %c1
+        J(2,4) = - (1/dZ^2)* (1/Pe)  ;                                     %c2
+        J(2,1) = C(1)/dZ^2;                                                %p1
+        J(2,3) = -(C(1)/dZ^2);                                             %p2
     case 1
         J(2,2) =  1/dt + (1/dZ^2)*(1/Pe) - (1/dZ^2)*( P(2)-P(1) )+ Da;     %c1
         J(2,4) = - (1/dZ^2)* (1/Pe)  ;                                     %c2
-        J(2,1) = C(1)/dZ^2 - Da/(dZ^2);                                    %p1
-        J(2,3) = -(C(1)/dZ^2) + Da/(dZ^2);                                 %p2
+        J(2,1) = C(1)/dZ^2 - Da/(M*dZ^2);                                  %p1
+        J(2,3) = -(C(1)/dZ^2) + Da/(M*dZ^2);                               %p2
 
 end
 
@@ -151,14 +151,14 @@ switch threshold
 
     case 0
         J(2*n,2*n) =1/dt + Das/dZ + (1/ (dZ^2*Pe) )+ Da;    % c(n)
-        J(2*n,2*n-3) = - 1/(dZ^2*Pe);  %c(n-1)
+        J(2*n,2*n-2) = - 1/(dZ^2*Pe);  %c(n-1)
         J(2*n,2*n-1)=C(n-1)/dZ^2;                           %p(n)
-        J(2*n,2*n-4)= -(C(n-1)/dZ^2);                       % p(n-1)
+        J(2*n,2*n-3)= -(C(n-1)/dZ^2);                       % p(n-1)
     case 1
         J(2*n,2*n) =1/dt + Das/dZ + (1/ (dZ^2*Pe) ) + Da;    % c(n)
-        J(2*n,2*n-3) = - 1/(dZ^2*Pe);  %c(n-1)
+        J(2*n,2*n-2) = - 1/(dZ^2*Pe);  %c(n-1)
         J(2*n,2*n-1)=C(n-1)/dZ^2;                           %p(n)
-        J(2*n,2*n-4)= -(C(n-1)/dZ^2);                       % p(n-1)
+        J(2*n,2*n-3)= -(C(n-1)/dZ^2);                       % p(n-1)
 
 end
 

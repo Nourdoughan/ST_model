@@ -40,7 +40,7 @@ function [P,C,err] = Newton(n,p_old,M,X,Pe,Da,Das,ph,Psi,C_old_scaled,dt,dZ,J_as
 
 
 tol = 1e-8;        % Convergence tolerance
-max_iter = 1000;   % Maximum Newton iterations
+max_iter = 10000;  % Maximum Newton iterations
 
 err = 1;           % Initial error (start large)
 iter = 0;          % Iteration counter
