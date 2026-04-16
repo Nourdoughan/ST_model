@@ -42,7 +42,7 @@ J_assim = J_assim/(u_0*c0);         %  sucrose assimilation flux;
 n   = 100;          % Number of spatial grid points
 dz  = l / n;        % Spatial step (dimensional)
 dZ  = dz / l;       % Non-dimensional spatial step
-duration = 100;     % Number of time steps
+duration = 1000;     % Number of time steps
 dt = 0.001;         % Time step size (non-dimensional)
 threshold = 0;      % Switch, 0: Cs = 0
                     %         1: Cs = - d2P/dZ2 + ph/p0 - X*Psi 
@@ -79,8 +79,7 @@ C = zeros(n, duration);   % Concentration matrix
 P = zeros(n, duration);   % Pressure matrix
 
 C(:,1) = C_old_scaled;    % Store initial concentration
-P(:,1) = P_old;           % Store initial pressure
-
+P(:,1) = P_old;           % Store initial pressure;
 
 % 7) TIME INTEGRATION LOOP (Newton Solver)
 

@@ -40,7 +40,7 @@ function [P,C,err] = Newton(n,p_old,M,X,Pe,Da,Das,ph,Psi,C_old_scaled,dt,dZ,J_as
 
 
 tol = 1e-8;        % Convergence tolerance
-max_iter = 10000;  % Maximum Newton iterations
+max_iter = 10000;  % Maximum Newton iterations (debug: limited)
 
 err = 1;           % Initial error (start large)
 iter = 0;          % Iteration counter
@@ -48,7 +48,6 @@ iter = 0;          % Iteration counter
 % Initialize solution vectors with previous time step
 C = C_old_scaled;
 P = p_old;
-
 
 
 % 2) NEWTON ITERATION LOOP
@@ -83,7 +82,7 @@ while err > tol && iter < max_iter
     % J * delta = -F
     % Solved using a specialized 2x2 block Thomas algorithm
     sol = blockThomas2x2(J, -F, n);
-
+    
     % Extract pressure and concentration corrections
     dp = sol(1:2:2*n);   % Pressure corrections
     dc = sol(2:2:2*n);   % Concentration corrections
@@ -98,10 +97,10 @@ while err > tol && iter < max_iter
     % 2.5 Convergence Check
  
     % Compute residual norm to monitor convergence
-    err = norm(Fvector(n,p_IT,c_IT,M,X,Pe,Da,Das,...
+    err = norm(Fvector(n,P,C,M,X,Pe,Da,Das,...
                        ph,Psi,C_old_scaled,dt,dZ,J_assim,threshold));
 
-    %fprintf("Iteration %d   Error = %e\n", iter, err);
+    % fprintf("Iteration %d   Error = %e\n", iter, err);
 
 end
 

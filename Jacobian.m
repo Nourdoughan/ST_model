@@ -115,10 +115,10 @@ end
 %  BOUNDARY CONDITIONS
 
 % Top boundary (z = 0) 
-% Pressure: - ( P(2) - P(1) )/(dz^2) + P(1) - C(1) - X*Psi(1) = 0;
-J(1,1) = 1 + 1/(dZ^2);
+% Pressure: - ( P(2) - P(1) )/(M*dZ^2) + P(1) - C(1) - X*Psi(1) = 0;
+J(1,1) = 1 + 1/(M*dZ^2);
 J(1,2) = -1;
-J(1,3) = - 1/(dZ^2);
+J(1,3) = - 1/(M*dZ^2);
 
 % Concentration: Flux = J_assim 
 switch threshold
@@ -151,16 +151,18 @@ switch threshold
 
     case 0
         J(2*n,2*n) =1/dt + Das/dZ + (1/ (dZ^2*Pe) )+ Da;    % c(n)
-        J(2*n,2*n-2) = - 1/(dZ^2*Pe);  %c(n-1)
+        J(2*n,2*n-2) = (P(n) - P(n-1))/dZ^2 - 1/(dZ^2*Pe);  %c(n-1)
         J(2*n,2*n-1)=C(n-1)/dZ^2;                           %p(n)
         J(2*n,2*n-3)= -(C(n-1)/dZ^2);                       % p(n-1)
     case 1
         J(2*n,2*n) =1/dt + Das/dZ + (1/ (dZ^2*Pe) ) + Da;    % c(n)
-        J(2*n,2*n-2) = - 1/(dZ^2*Pe);  %c(n-1)
+        J(2*n,2*n-2) = (P(n) - P(n-1))/dZ^2 - 1/(dZ^2*Pe);  %c(n-1)
         J(2*n,2*n-1)=C(n-1)/dZ^2;                           %p(n)
         J(2*n,2*n-3)= -(C(n-1)/dZ^2);                       % p(n-1)
 
 end
+
+
 
 
 end
