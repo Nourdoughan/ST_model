@@ -80,7 +80,7 @@ end
 
 
 % Axial velocity equal to zero: dP/dZ = 0
-F(1) = - ( P(2) - P(1) )/(dZ^2) + P(1) - C(1) - X*Psi(1);
+F(1) = - ( P(2) - P(1) )/(dz^2) + P(1) - C(1) - X*Psi(1);
 
 % Concentration: Dirichlet condition (C = 1 at inlet)
 
@@ -123,10 +123,10 @@ switch threshold
          + Da.*C(n);
     case 1
         F(2*n) = ( C(n) - C_old_scaled(n) )./dt ...
-         + ( C(n) + X*Psi(n) - ph )*Das/dZ ...
+         + ( C(n) + X*Psi(n)-ph+( (P(n-1)-P(n) )/ dZ^2) )*Das/dZ ...
          + (1/dZ^2)*( C(n-1).*( P(n)-P(n-1) ) ...
          + (1/Pe).*( C(n) - C(n-1) ) ) ...
-         + Da.*( C(n) - ph + X*Psi(n) );
+         + Da.*C(n);
 end
 
 

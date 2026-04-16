@@ -40,8 +40,10 @@ ph  = (rho*g*l)/p_0;                      % Hydrostatic pressure scale
 n   = 100;          % Number of spatial grid points
 dz  = l / n;        % Spatial step (dimensional)
 dZ  = dz / l;       % Non-dimensional spatial step
-duration = 100;     % Number of time steps
+duration = 1000;     % Number of time steps
 dt = 0.001;         % Time step size (non-dimensional)
+threshold = 0;      % Switch, 0: Cs = 0
+                    %         1: Cs = - d2P/dZ2 + ph/p0 - X*Psi 
 
 % 4) XYLEM WATER POTENTIAL (Linear Profile)
 
@@ -82,7 +84,7 @@ for i = 2:duration
     
     % Solve nonlinear coupled system using Newton's method
     [P(:,i), C(:,i), ~] =  Newton(n, P(:,i-1), M, X, Pe, Da, Das, ...
-               ph, p_0, Psi, C(:,i-1), dt, dZ,J_assim);
+               ph, Psi, C(:,i-1), dt, dZ,J_assim,threshold);
     
 end
 
