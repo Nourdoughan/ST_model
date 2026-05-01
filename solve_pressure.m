@@ -5,7 +5,7 @@ function P = solve_pressure(C_old_scaled,Psi,X,n,M,dZ)
 
     
    % Build tridiagonal system
-    diag_p = ones(n,1) .* (2/(M*dZ^2) + 1);   %  M is Münch number
+    diag_p = ones(n,1) .* (2/(M*dZ^2) + 1);  %  M is Münch number
     diag_u = ones(n-1,1) .* (-1/(M*dZ^2));
     diag_l = diag_u;
 
